@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { getUser, isLoggedIn } from "../../utils/useLocalStorage"; // Ensure the path is correct
+import { getUser, isLoggedIn } from "../../utils/auth";
+import LogoutButton from "../logout/logout";
 
 const NavBar = () => {
   const user = getUser();
@@ -20,13 +21,13 @@ const NavBar = () => {
             <>
               <Navbar.Text>
                 Signed in as: <Link to="/profile" className="nav-link">{user.name}</Link>
+              < LogoutButton />
               </Navbar.Text>
-              {/* Add a logout link or button here if needed */}
             </>
           ) : (
             <>
               <Nav.Link as={Link} to="/login">Login</Nav.Link>
-              <Nav.Link as={Link} to="/register">Register</Nav.Link> {/* Added Register link */}
+              <Nav.Link as={Link} to="/register">Register</Nav.Link> 
             </>
           )}
         </Nav>
