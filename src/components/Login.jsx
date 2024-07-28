@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { saveToken, saveUser } from "../utils/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_URL } from "../constants/apiUrl";
-import fetchProfile from "./profiles/FetchProfile";
+import fetchProfile from "../profiles/FetchProfile";
  
 const Login = () => {
   const navigate = useNavigate();
