@@ -1,41 +1,25 @@
 import React, { useState } from "react";
-import { saveToken, saveUser } from "../utils/useLocalStorage";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_URL } from "../constants/apiUrl";
-import fetchProfile from "../profiles/FetchProfile";
- 
+
 const Login = () => {
   const navigate = useNavigate();
+  const { login, error, isAuthenticated } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(LOGIN_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      console.log("data response.json: ", data);
- 
-      if (response.ok) {
-        saveToken(data.accessToken);
-        const profileData = await fetchProfile(data.name);
-        saveUser(profileData);
-        navigate("/Profile");
-      } else {
-        setError("Invalid email or password");
+      await login(email, password);  
+      if (isAuthenticated) {  
+        navigate("/Profile"); 
       }
     } catch (error) {
-      setError("Invalid email or password");
+      console.error('Login error:', error);
     }
   };
- 
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -65,5 +49,5 @@ const Login = () => {
     </div>
   );
 };
- 
+
 export default Login;

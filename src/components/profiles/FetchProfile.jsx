@@ -1,9 +1,9 @@
-import { getToken } from "../../utils/useLocalStorage";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { PROFILE_URL } from "../../constants/apiUrl";
  
 const fetchProfile = async (user) => {
   try {
-    const accessToken = getToken();
+    const accessToken = useLocalStorage();
     const response = await fetch(PROFILE_URL + user, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
