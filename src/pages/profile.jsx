@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import fetchProfile from "../components/profiles/FetchProfile";
 import UserProfile from "../components/profiles/UserProfile";
-import { useAuthContext } from "../context/authContext";
+import { getUser } from "../hooks/useLocalStorage";
 
 const Profile = () => {
-  const { user } = useAuthContext(); 
-  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   useEffect(() => {
-    if (!user) {
-      setError("User not authenticated");
+    const userData = getUser();
+    if (!userData) {
+      setError("User data not found in local storage");
       setLoading(false);
       return;
     }
-    
-    // Assuming user.name or a similar identifier is available to fetch profile
+ 
+    const { name } = userData;
     const fetchData = async () => {
       try {
-        const profileData = await fetchProfile(user.name);  // This assumes user.name is an identifier for fetching the profile
-        setProfile(profileData);
+        const userData = await fetchProfile(name);
+        setUser(userData);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -29,8 +29,8 @@ const Profile = () => {
     };
  
     fetchData();
-  }, [user]);  // Dependency on user ensures fetchProfile runs only if user exists
-
+  }, []);
+ 
   return (
     <div>
       <h1>User Profile</h1>
@@ -39,10 +39,10 @@ const Profile = () => {
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
-        <UserProfile user={profile} />  // Pass the fetched profile to UserProfile component
+        <UserProfile user={user} />
       )}
     </div>
   );
 };
-
+ 
 export default Profile;

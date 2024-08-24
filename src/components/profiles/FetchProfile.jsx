@@ -1,25 +1,22 @@
+import axios from "axios";
 import { getToken } from "../../hooks/useLocalStorage";
 import { PROFILE_URL } from "../../constants/apiUrl";
  
-const fetchProfile = async (user) => {
+const fetchProfile = async (name) => {
   try {
-    const accessToken = getToken();
-    const response = await fetch(PROFILE_URL + user, {
+    const token = getToken();
+    console.log("Token used in fetchProfile:", token);
+    const response = await axios.get(PROFILE_URL(name), {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
-    if (!response.ok) {
-      throw new Error("Failed to fetch user profile data");
-    }
-    const profileData = await response.json();
-    console.log("Profile:", profileData);
-    return profileData;
+    return response.data;
   } catch (error) {
     console.error("Error fetching user profile data:", error);
-    throw error;
+    throw new Error(`Failed to fetch user profile data: ${error}`);
   }
 };
- 
+
 export default fetchProfile;
