@@ -1,6 +1,6 @@
 import React from "react";
  
-const profileDetails = ({ user }) => {
+const ProfileDetails = ({ user }) => {
   return (
     <div>
       {user ? (
@@ -20,4 +20,4 @@ const profileDetails = ({ user }) => {
   );
 };
  
-export default profileDetails;
+export default ProfileDetails;
