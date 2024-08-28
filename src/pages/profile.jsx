@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import fetchProfile from "../components/profiles/FetchProfile";
-import UserProfile from "../components/profiles/UserProfile";
+import profileDetails from "../components/profiles/profileDetails";
 import { getUser } from "../hooks/useLocalStorage";
 
 const Profile = () => {
@@ -33,13 +33,13 @@ const Profile = () => {
  
   return (
     <div>
-      <h1>User Profile</h1>
+      <h1>Your Profile</h1>
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
-        <UserProfile user={user} />
+        <profileDetails user={user} />
       )}
     </div>
   );
